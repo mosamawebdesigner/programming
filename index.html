@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل حضور مادة برمجة النظم</title>
+<style>
+    /* إعدادات عامة */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #053296, #1a75ff);
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: rgba(0,0,0,0.6);
+        padding: 30px 20px;
+        border-radius: 15px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        color: #ffcc00;
+    }
+
+    #message {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+    }
+
+    #timer {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #00ffcc;
+        margin-bottom: 20px;
+    }
+
+    .note {
+        font-size: 0.9em;
+        color: #ddd;
+    }
+
+    @media (max-width: 500px){
+        h2 { font-size: 1.5em; }
+        #timer { font-size: 1em; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>مرحبًا بالطلاب!</h2>
+    <p id="message">جارٍ التحقق من تسجيل الحضور...</p>
+    <div id="timer"></div>
+    <p class="note">بعد قليل سيتم تحويلك تلقائيًا إلى Google Form لتسجيل الحضور.</p>
+</div>
+
+<script>
+    // مدة العداد (اختياري)
+    const countdownMinutes = 10;
+    const now = new Date();
+    const endTime = new Date(now.getTime() + countdownMinutes*60*1000);
+
+    const timerDiv = document.getElementById("timer");
+    const messageDiv = document.getElementById("message");
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = endTime - now;
+        if(diff > 0){
+            const minutes = Math.floor(diff / 1000 / 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            timerDiv.textContent = `الوقت المتبقي لتسجيل الحضور: ${minutes} دقيقة و ${seconds} ثانية`;
+        } else {
+            timerDiv.textContent = '';
+            clearInterval(timerInterval);
+        }
+    }
+
+    // تحويل الطالب مباشرة للفورم بعد ثانيتين
+    setTimeout(() => {
+        // ضع هنا رابط الفورم الخاص بالمادة، مع تحديد المادة مسبقًا
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfQyjElZJvGcmewEMD0Ij_fb8v4Xwj2hEytC2oapXJdIVe29g/viewform?usp=header";
+    }, 2000);
+
+    // تشغيل العداد
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+
+    messageDiv.textContent = "الرجاء الانتظار، سيتم تحويلك للفورم تلقائيًا...";
+</script>
+
+</body>
+</html>
